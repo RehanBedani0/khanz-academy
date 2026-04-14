@@ -25,15 +25,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install All Possible System Dependencies (Bulletproof)
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            build-essential git zip unzip autoconf libtool pkg-config \
-            zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 \
-            cmake libffi-dev libssl-dev uuid-dev libsqlite3-dev \
-            libltdl-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
-            mesa-common-dev libgl1-mesa-dev libgles2-mesa-dev ccache gettext
+          sudo apt-get install -y zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev git uuid-dev
 
       - name: Install Python Dependencies
         run: |
