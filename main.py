@@ -72,16 +72,6 @@ if os.path.isfile(_KV_PATH):
 class KhanzAcademyApp(MDApp):
     """
     Root application class for Khan'z Academy.
-
-    Attributes
-    ----------
-    db : DatabaseManager
-        Shared database manager accessible from all screens via
-        ``App.get_running_app().db``.
-    selected_student_id : int or None
-        Set before navigating to StudentDetailScreen.
-    selected_fee_student_id : int or None
-        Set before navigating to FeeDetailScreen.
     """
 
     def __init__(self, **kwargs) -> None:
@@ -98,10 +88,10 @@ class KhanzAcademyApp(MDApp):
     def build(self):
         """Initialise theme, infrastructure, database, and build the UI."""
 
-        # ---- Material theme ----
-        self.theme_cls.primary_palette = "Blue"
-        self.theme_cls.primary_hue = "900"
-        self.theme_cls.accent_palette = "Amber"
+        # ---- Material theme (Premium Redesign) ----
+        self.theme_cls.primary_palette = "Indigo"  # Changed from Blue to Soft Indigo
+        self.theme_cls.primary_hue = "500"         # Changed from 900 (dark) to 500 (premium soft)
+        self.theme_cls.accent_palette = "Teal"     # Changed from Amber to Teal for better contrast
         self.theme_cls.theme_style = "Light"
 
         # ---- Ensure required folders exist ----
@@ -133,12 +123,7 @@ class KhanzAcademyApp(MDApp):
     # ------------------------------------------------------------------
 
     def go_to_screen(self, screen_name: str) -> None:
-        """
-        Navigate forward to *screen_name* with a left-sliding transition.
-
-        Pushes the current screen onto the history stack so that
-        ``go_back()`` can return to it.
-        """
+        """Navigate forward to *screen_name* with a left-sliding transition."""
         sm = self.root
         if sm is None:
             return
@@ -149,11 +134,7 @@ class KhanzAcademyApp(MDApp):
         sm.current = screen_name
 
     def go_back(self) -> None:
-        """
-        Navigate back to the previous screen (right-sliding transition).
-
-        If there is no history, return to the Dashboard.
-        """
+        """Navigate back to the previous screen (right-sliding transition)."""
         sm = self.root
         if sm is None:
             return
@@ -180,11 +161,7 @@ class KhanzAcademyApp(MDApp):
         Window.bind(on_keyboard=self._handle_keyboard)
 
     def _handle_keyboard(self, _window, key: int, *_args) -> bool:
-        """
-        Intercept the Android back key (key code 27 / ESC or 1001).
-
-        Returns True to consume the event (prevent default action).
-        """
+        """Intercept the Android back key (key code 27 / ESC or 1001)."""
         back_keys = {27, 1001}  # ESC on desktop, Android back button
         if key in back_keys:
             sm = self.root
