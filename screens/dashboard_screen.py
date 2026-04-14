@@ -1,18 +1,16 @@
 """
 Dashboard screen for Khan'z Academy Mobile App.
-
-Displays summary statistics and a navigation card grid.
+Premium Redesign - Soft Colors, Center Alignment, and Material Icons.
 """
 
 from kivy.app import App  # type: ignore
 from kivy.clock import Clock  # type: ignore
 from kivy.metrics import dp  # type: ignore
-from kivy.uix.boxlayout import BoxLayout  # type: ignore
 from kivy.uix.scrollview import ScrollView  # type: ignore
 from kivymd.uix.boxlayout import MDBoxLayout  # type: ignore
 from kivymd.uix.card import MDCard  # type: ignore
 from kivymd.uix.gridlayout import MDGridLayout  # type: ignore
-from kivymd.uix.label import MDLabel  # type: ignore
+from kivymd.uix.label import MDLabel, MDIcon  # type: ignore
 from kivymd.uix.screen import MDScreen  # type: ignore
 from kivymd.uix.toolbar import MDTopAppBar  # type: ignore
 
@@ -21,18 +19,18 @@ from widgets.navigation import BottomNavBar
 
 
 # ---------------------------------------------------------------------------
-# Navigation card data
+# Navigation card data (Upgraded to Material Icons and Soft Colors)
 # ---------------------------------------------------------------------------
 
 _NAV_CARDS = [
-    {"title": "Students",     "subtitle": "View all students",      "icon": "👥", "screen": "view_students",    "color": [0.10, 0.14, 0.49, 1]},
-    {"title": "Add Student",  "subtitle": "Enrol a new student",    "icon": "➕", "screen": "add_student",       "color": [0.23, 0.62, 0.27, 1]},
-    {"title": "Fee Mgmt",     "subtitle": "Track payments & fees",  "icon": "💳", "screen": "fee_management",    "color": [0.80, 0.51, 0.01, 1]},
-    {"title": "Classes",      "subtitle": "Class-wise listing",     "icon": "🏫", "screen": "class_management",  "color": [0.62, 0.04, 0.23, 1]},
-    {"title": "Vouchers",     "subtitle": "Generate fee receipts",  "icon": "🧾", "screen": "voucher",           "color": [0.00, 0.51, 0.50, 1]},
-    {"title": "Reports",      "subtitle": "PDF management reports", "icon": "📊", "screen": "reports",           "color": [0.46, 0.10, 0.75, 1]},
-    {"title": "Backup",       "subtitle": "Backup your data",       "icon": "💾", "screen": "__backup__",        "color": [0.10, 0.45, 0.67, 1]},
-    {"title": "Settings",     "subtitle": "App configuration",      "icon": "⚙️", "screen": "settings",          "color": [0.33, 0.33, 0.33, 1]},
+    {"title": "Students",     "subtitle": "View all students",      "icon": "account-group",      "screen": "view_students",    "color": [0.247, 0.318, 0.710, 1]}, # Indigo
+    {"title": "Add Student",  "subtitle": "Enrol a new student",    "icon": "account-plus",       "screen": "add_student",      "color": [0.300, 0.690, 0.310, 1]}, # Soft Green
+    {"title": "Fee Mgmt",     "subtitle": "Track payments & fees",  "icon": "credit-card-outline","screen": "fee_management",   "color": [0.950, 0.610, 0.070, 1]}, # Soft Orange
+    {"title": "Classes",      "subtitle": "Class-wise listing",     "icon": "google-classroom",   "screen": "class_management", "color": [0.898, 0.224, 0.208, 1]}, # Soft Red
+    {"title": "Vouchers",     "subtitle": "Generate fee receipts",  "icon": "receipt",            "screen": "voucher",          "color": [0.000, 0.588, 0.533, 1]}, # Teal
+    {"title": "Reports",      "subtitle": "PDF management reports", "icon": "chart-bar",          "screen": "reports",          "color": [0.610, 0.350, 0.710, 1]}, # Soft Purple
+    {"title": "Backup",       "subtitle": "Backup your data",       "icon": "content-save",       "screen": "__backup__",       "color": [0.010, 0.660, 0.960, 1]}, # Light Blue
+    {"title": "Settings",     "subtitle": "App configuration",      "icon": "cog",                "screen": "settings",         "color": [0.460, 0.460, 0.500, 1]}, # Grey
 ]
 
 
@@ -61,9 +59,9 @@ class DashboardScreen(MDScreen):
         # ---- Top app bar ----
         toolbar = MDTopAppBar(
             title="KHAN'Z ACADEMY",
-            md_bg_color=[0.10, 0.14, 0.49, 1],
+            md_bg_color=[0.247, 0.318, 0.710, 1], # Soft Indigo 500
             specific_text_color=[1, 1, 1, 1],
-            elevation=4,
+            elevation=2, # Softer shadow
         )
         root.add_widget(toolbar)
 
@@ -71,8 +69,8 @@ class DashboardScreen(MDScreen):
         scroll = ScrollView()
         content = MDBoxLayout(
             orientation="vertical",
-            spacing=dp(8),
-            padding=[dp(12), dp(8), dp(12), dp(8)],
+            spacing=dp(12), # Increased spacing for breathing room
+            padding=[dp(16), dp(12), dp(16), dp(16)],
             size_hint_y=None,
         )
         content.bind(minimum_height=content.setter("height"))
@@ -81,12 +79,12 @@ class DashboardScreen(MDScreen):
         month, year = get_current_month_year()
         date_str = get_current_date()
         welcome_card = MDCard(
-            radius=[dp(12)] * 4,
-            elevation=2,
-            padding=dp(14),
+            radius=[dp(16)] * 4,
+            elevation=1.5,
+            padding=dp(16),
             size_hint_y=None,
-            height=dp(64),
-            md_bg_color=[0.10, 0.14, 0.49, 1],
+            height=dp(75),
+            md_bg_color=[0.247, 0.318, 0.710, 1], # Soft Indigo 500
         )
         welcome_inner = MDBoxLayout(orientation="vertical")
         welcome_inner.add_widget(MDLabel(
@@ -102,7 +100,7 @@ class DashboardScreen(MDScreen):
             text=f"{get_month_name(month)} {year}  |  {date_str}",
             font_style="Caption",
             theme_text_color="Custom",
-            text_color=[0.8, 0.8, 1.0, 1],
+            text_color=[0.85, 0.90, 1.0, 1],
             size_hint_y=None,
             height=dp(20),
         ))
@@ -112,24 +110,24 @@ class DashboardScreen(MDScreen):
         # ---- Stat cards row ----
         stats_row = MDGridLayout(
             cols=2,
-            spacing=dp(8),
+            spacing=dp(12),
             size_hint_y=None,
             height=dp(100),
         )
         stat_defs = [
-            ("total_students",   "Total Students",   "0",    [0.10, 0.14, 0.49, 1]),
-            ("month_collected",  "This Month",        "Rs.0", [0.23, 0.62, 0.27, 1]),
-            ("pending_fees",     "Pending Fees",      "Rs.0", [0.96, 0.26, 0.21, 1]),
-            ("total_classes",    "Classes",           "12",   [0.80, 0.51, 0.01, 1]),
+            ("total_students",   "Total Students",   "0",    [0.247, 0.318, 0.710, 1]), # Indigo
+            ("month_collected",  "This Month",       "Rs.0", [0.300, 0.690, 0.310, 1]), # Green
+            ("pending_fees",     "Pending Fees",     "Rs.0", [0.898, 0.224, 0.208, 1]), # Red
+            ("total_classes",    "Classes",          "12",   [0.950, 0.610, 0.070, 1]), # Orange
         ]
         for key, label, default_val, color in stat_defs:
             card = MDCard(
-                radius=[dp(10)] * 4,
-                elevation=2,
+                radius=[dp(16)] * 4,
+                elevation=1.5,
                 padding=dp(10),
                 md_bg_color=[1, 1, 1, 1],
             )
-            inner = MDBoxLayout(orientation="vertical")
+            inner = MDBoxLayout(orientation="vertical", spacing=dp(2))
             val_lbl = MDLabel(
                 text=default_val,
                 font_style="H6",
@@ -161,15 +159,15 @@ class DashboardScreen(MDScreen):
             font_style="Subtitle1",
             bold=True,
             theme_text_color="Custom",
-            text_color=[0.10, 0.14, 0.49, 1],
+            text_color=[0.247, 0.318, 0.710, 1], # Soft Indigo
             size_hint_y=None,
-            height=dp(30),
+            height=dp(35),
         )
         content.add_widget(nav_header)
 
         nav_grid = MDGridLayout(
             cols=2,
-            spacing=dp(8),
+            spacing=dp(12),
             size_hint_y=None,
         )
         nav_grid.bind(minimum_height=nav_grid.setter("height"))
@@ -188,24 +186,27 @@ class DashboardScreen(MDScreen):
         self.add_widget(root)
 
     def _make_nav_card(self, card_def: dict) -> MDCard:
-        """Return a navigation card widget for one shortcut."""
+        """Return a perfectly centered navigation card widget."""
         card = MDCard(
-            radius=[dp(12)] * 4,
-            elevation=2,
-            padding=dp(14),
+            radius=[dp(16)] * 4,
+            elevation=1.5,
+            padding=dp(12),
             size_hint_y=None,
-            height=dp(100),
+            height=dp(110),
             ripple_behavior=True,
             md_bg_color=[1, 1, 1, 1],
         )
-        inner = MDBoxLayout(orientation="vertical", spacing=dp(4))
+        inner = MDBoxLayout(orientation="vertical", spacing=dp(6))
 
-        icon_lbl = MDLabel(
-            text=card_def["icon"],
-            font_style="H5",
+        # Using MDIcon properly instead of text labels
+        icon_lbl = MDIcon(
+            icon=card_def["icon"],
+            theme_text_color="Custom",
+            text_color=card_def["color"],
+            halign="center",
+            font_size=dp(32),
             size_hint_y=None,
             height=dp(36),
-            halign="left",
         )
         title_lbl = MDLabel(
             text=card_def["title"],
@@ -214,7 +215,8 @@ class DashboardScreen(MDScreen):
             theme_text_color="Custom",
             text_color=card_def["color"],
             size_hint_y=None,
-            height=dp(22),
+            height=dp(20),
+            halign="center", # Perfectly Centered
         )
         sub_lbl = MDLabel(
             text=card_def["subtitle"],
@@ -222,6 +224,7 @@ class DashboardScreen(MDScreen):
             theme_text_color="Secondary",
             size_hint_y=None,
             height=dp(18),
+            halign="center", # Perfectly Centered
         )
         inner.add_widget(icon_lbl)
         inner.add_widget(title_lbl)
