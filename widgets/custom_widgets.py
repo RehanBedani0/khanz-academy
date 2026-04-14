@@ -1,5 +1,6 @@
 """
 Reusable custom Kivy/KivyMD widgets for Khan'z Academy Mobile App.
+Premium Redesign - Soft Colors, Perfect Center Alignment, Proper MDIcons.
 
 Defines:
     KACard         — a styled MDCard with consistent rounding & elevation
@@ -14,49 +15,50 @@ Defines:
 from kivy.lang import Builder  # type: ignore
 from kivy.metrics import dp  # type: ignore
 from kivy.uix.boxlayout import BoxLayout  # type: ignore
-from kivy.uix.label import Label  # type: ignore
 from kivymd.uix.button import MDRaisedButton, MDFlatButton  # type: ignore
 from kivymd.uix.card import MDCard  # type: ignore
-from kivymd.uix.label import MDLabel  # type: ignore
+from kivymd.uix.label import MDLabel, MDIcon  # type: ignore
 
 # ---------------------------------------------------------------------------
-# Inline KV rules
+# Inline KV rules (Premium UI Updates)
 # ---------------------------------------------------------------------------
 
 Builder.load_string("""
 #:import dp kivy.metrics.dp
 
 <KACard>:
-    radius: [dp(12), dp(12), dp(12), dp(12)]
-    elevation: 2
-    padding: dp(12)
+    radius: [dp(16), dp(16), dp(16), dp(16)]
+    elevation: 1.5
+    padding: dp(16)
     md_bg_color: 1, 1, 1, 1
 
 <KAStatCard>:
     orientation: 'vertical'
     size_hint_y: None
-    height: dp(90)
-    radius: [dp(12), dp(12), dp(12), dp(12)]
-    elevation: 2
-    padding: dp(10)
+    height: dp(110)
+    radius: [dp(16), dp(16), dp(16), dp(16)]
+    elevation: 1.5
+    padding: dp(12)
+    spacing: dp(4)
     md_bg_color: 1, 1, 1, 1
+    ripple_behavior: True
 
 <KAStudentCard>:
     orientation: 'vertical'
     size_hint_y: None
     height: dp(90)
-    radius: [dp(10), dp(10), dp(10), dp(10)]
-    elevation: 1
-    padding: [dp(12), dp(8)]
+    radius: [dp(12), dp(12), dp(12), dp(12)]
+    elevation: 1.2
+    padding: [dp(16), dp(12)]
     md_bg_color: 1, 1, 1, 1
     ripple_behavior: True
 
 <KAFeeRow>:
     size_hint_y: None
-    height: dp(54)
-    radius: [dp(6), dp(6), dp(6), dp(6)]
-    elevation: 1
-    padding: [dp(12), dp(6)]
+    height: dp(60)
+    radius: [dp(10), dp(10), dp(10), dp(10)]
+    elevation: 1.2
+    padding: [dp(16), dp(8)]
     md_bg_color: 1, 1, 1, 1
     ripple_behavior: True
 
@@ -64,13 +66,14 @@ Builder.load_string("""
     orientation: 'vertical'
     size_hint_y: None
     height: dp(180)
+    spacing: dp(10)
 
 <KASectionHeader>:
     size_hint_y: None
-    height: dp(36)
+    height: dp(40)
     bold: True
     theme_text_color: 'Custom'
-    text_color: 0.10, 0.14, 0.49, 1
+    text_color: 0.247, 0.318, 0.710, 1  # Soft Indigo 500
     font_style: 'Subtitle1'
 """)
 
@@ -90,14 +93,8 @@ class KACard(MDCard):
 
 class KAStatCard(MDCard):
     """
-    A compact card for displaying a labelled statistic on the dashboard.
-
-    Usage::
-
-        card = KAStatCard(label="Total Students", value="42",
-                          icon="account-group",
-                          icon_color=[0.13, 0.14, 0.49, 1])
-        parent.add_widget(card)
+    A premium card for displaying a labelled statistic on the dashboard.
+    Perfectly center-aligned with proper KivyMD icons.
     """
 
     def __init__(
@@ -110,50 +107,47 @@ class KAStatCard(MDCard):
     ) -> None:
         super().__init__(**kwargs)
         if icon_color is None:
-            icon_color = [0.13, 0.14, 0.49, 1]
+            icon_color = [0.0, 0.588, 0.533, 1]  # Teal Accent for Icons
 
         from kivymd.uix.boxlayout import MDBoxLayout  # type: ignore
-        from kivymd.uix.label import MDLabel  # type: ignore
-        from kivymd.icon_definitions import md_icons  # type: ignore
 
-        row = MDBoxLayout(orientation="horizontal", spacing=dp(8))
+        # Main vertical container for perfect centering
+        container = MDBoxLayout(orientation="vertical", spacing=dp(4))
 
-        # Icon label (using icon font)
-        icon_lbl = MDLabel(
-            text=md_icons.get(icon, ""),
-            font_style="H5",
+        # Using MDIcon properly instead of raw text labels to prevent empty boxes
+        icon_lbl = MDIcon(
+            icon=icon,
             theme_text_color="Custom",
             text_color=icon_color,
-            size_hint_x=None,
-            width=dp(36),
             halign="center",
-            valign="middle",
-            font_name="Icons",
+            font_size=dp(32),
+            size_hint_y=None,
+            height=dp(36)
         )
-        row.add_widget(icon_lbl)
-
-        col = MDBoxLayout(orientation="vertical", spacing=dp(2))
-
+        
         val_lbl = MDLabel(
             text=str(value),
-            font_style="H6",
+            font_style="H5",
             bold=True,
             theme_text_color="Custom",
-            text_color=[0.13, 0.14, 0.49, 1],
-            halign="left",
-            valign="middle",
+            text_color=[0.247, 0.318, 0.710, 1],  # Soft Indigo
+            halign="center",
+            size_hint_y=None,
+            height=dp(28)
         )
+        
         lbl_lbl = MDLabel(
             text=label,
             font_style="Caption",
             theme_text_color="Secondary",
-            halign="left",
-            valign="middle",
+            halign="center",
         )
-        col.add_widget(val_lbl)
-        col.add_widget(lbl_lbl)
-        row.add_widget(col)
-        self.add_widget(row)
+        
+        container.add_widget(icon_lbl)
+        container.add_widget(val_lbl)
+        container.add_widget(lbl_lbl)
+        
+        self.add_widget(container)
         self._val_lbl = val_lbl
 
     def update_value(self, new_value: str) -> None:
@@ -168,8 +162,6 @@ class KAStatCard(MDCard):
 class KAStudentCard(MDCard):
     """
     A touch-enabled card representing a single student in a list.
-
-    Fires an *on_tap* callback with the student dict when tapped.
     """
 
     def __init__(
@@ -185,16 +177,14 @@ class KAStudentCard(MDCard):
         self._on_tap = on_tap
 
         from kivymd.uix.boxlayout import MDBoxLayout  # type: ignore
-        from kivymd.uix.label import MDLabel  # type: ignore
 
-        col = MDBoxLayout(orientation="vertical", spacing=dp(2))
+        col = MDBoxLayout(orientation="vertical", spacing=dp(4))
 
         name_lbl = MDLabel(
             text=student.get("student_name", "Unknown"),
             font_style="Subtitle1",
             bold=True,
-            theme_text_color="Custom",
-            text_color=[0.13, 0.13, 0.13, 1],
+            theme_text_color="Primary",
             size_hint_y=None,
             height=dp(24),
         )
@@ -205,13 +195,13 @@ class KAStudentCard(MDCard):
             size_hint_y=None,
             height=dp(18),
         )
-        info_row = MDBoxLayout(orientation="horizontal", spacing=dp(8),
-                               size_hint_y=None, height=dp(20))
+        info_row = MDBoxLayout(orientation="horizontal", spacing=dp(8), size_hint_y=None, height=dp(20))
+        
         class_lbl = MDLabel(
             text=student.get("class_name", ""),
             font_style="Caption",
             theme_text_color="Custom",
-            text_color=[0.13, 0.14, 0.49, 1],
+            text_color=[0.247, 0.318, 0.710, 1], # Indigo
             size_hint_x=0.35,
         )
         phone_lbl = MDLabel(
@@ -224,10 +214,11 @@ class KAStudentCard(MDCard):
             text=f"Rs. {float(student.get('monthly_fee', 0)):,.0f}/mo",
             font_style="Caption",
             theme_text_color="Custom",
-            text_color=[0.23, 0.62, 0.27, 1],
+            text_color=[0.30, 0.69, 0.31, 1], # Soft Green
             size_hint_x=0.30,
             halign="right",
         )
+        
         info_row.add_widget(class_lbl)
         info_row.add_widget(phone_lbl)
         info_row.add_widget(fee_lbl)
@@ -238,7 +229,6 @@ class KAStudentCard(MDCard):
         self.add_widget(col)
 
     def on_touch_up(self, touch):
-        """Fire the on_tap callback when the card is released."""
         if self.collide_point(*touch.pos) and self._on_tap:
             self._on_tap(self._student)
         return super().on_touch_up(touch)
@@ -249,17 +239,14 @@ class KAStudentCard(MDCard):
 # ---------------------------------------------------------------------------
 
 STATUS_COLORS = {
-    "Paid":    [0.23, 0.62, 0.27, 1],   # Green
-    "Unpaid":  [0.96, 0.26, 0.21, 1],   # Red
-    "Partial": [1.00, 0.60, 0.00, 1],   # Orange
+    "Paid":    [0.30, 0.69, 0.31, 1],   # Soft Green
+    "Unpaid":  [0.90, 0.32, 0.32, 1],   # Soft Red
+    "Partial": [1.00, 0.60, 0.00, 1],   # Vibrant Orange
 }
-
 
 class KAFeeRow(MDCard):
     """
     A fee record row card with colour-coded payment status.
-
-    on_tap callback receives the fee dict.
     """
 
     def __init__(self, fee: dict = None, on_tap=None, **kwargs) -> None:
@@ -270,7 +257,6 @@ class KAFeeRow(MDCard):
         self._on_tap = on_tap
 
         from kivymd.uix.boxlayout import MDBoxLayout  # type: ignore
-        from kivymd.uix.label import MDLabel  # type: ignore
         from libs.utils import format_currency, format_month_year  # type: ignore
 
         row = MDBoxLayout(orientation="horizontal", spacing=dp(8))
@@ -281,8 +267,7 @@ class KAFeeRow(MDCard):
             text=month_label,
             font_style="Body2",
             bold=True,
-            theme_text_color="Custom",
-            text_color=[0.13, 0.13, 0.13, 1],
+            theme_text_color="Primary",
             size_hint_x=0.30,
         )
         student_lbl = MDLabel(
@@ -303,10 +288,11 @@ class KAFeeRow(MDCard):
             font_style="Body2",
             bold=True,
             theme_text_color="Custom",
-            text_color=STATUS_COLORS.get(status, [0.13, 0.13, 0.13, 1]),
+            text_color=STATUS_COLORS.get(status, [0.90, 0.32, 0.32, 1]),
             size_hint_x=0.20,
             halign="center",
         )
+        
         row.add_widget(month_lbl)
         row.add_widget(student_lbl)
         row.add_widget(fee_lbl)
@@ -324,10 +310,9 @@ class KAFeeRow(MDCard):
 # ---------------------------------------------------------------------------
 
 def make_primary_button(text: str, on_release=None, **kwargs) -> MDRaisedButton:
-    """Return a full-width primary action button."""
     btn = MDRaisedButton(
         text=text,
-        md_bg_color=[0.10, 0.14, 0.49, 1],
+        md_bg_color=[0.247, 0.318, 0.710, 1], # Indigo 500
         size_hint_x=kwargs.pop("size_hint_x", 1),
         height=dp(48),
         **kwargs,
@@ -338,11 +323,10 @@ def make_primary_button(text: str, on_release=None, **kwargs) -> MDRaisedButton:
 
 
 def make_secondary_button(text: str, on_release=None, **kwargs) -> MDFlatButton:
-    """Return an outlined secondary action button."""
     btn = MDFlatButton(
         text=text,
         theme_text_color="Custom",
-        text_color=[0.10, 0.14, 0.49, 1],
+        text_color=[0.247, 0.318, 0.710, 1], # Indigo 500
         size_hint_x=kwargs.pop("size_hint_x", 1),
         height=dp(48),
         **kwargs,
@@ -353,10 +337,9 @@ def make_secondary_button(text: str, on_release=None, **kwargs) -> MDFlatButton:
 
 
 def make_danger_button(text: str, on_release=None, **kwargs) -> MDRaisedButton:
-    """Return a destructive action button (red background)."""
     btn = MDRaisedButton(
         text=text,
-        md_bg_color=[0.96, 0.26, 0.21, 1],
+        md_bg_color=[0.898, 0.224, 0.208, 1], # Soft Red
         size_hint_x=kwargs.pop("size_hint_x", 1),
         height=dp(48),
         **kwargs,
@@ -371,7 +354,7 @@ def make_danger_button(text: str, on_release=None, **kwargs) -> MDRaisedButton:
 # ---------------------------------------------------------------------------
 
 class KAEmptyState(BoxLayout):
-    """Centred empty-state placeholder shown when a list has no items."""
+    """Centred empty-state placeholder with proper MDIcon."""
 
     def __init__(self, message: str = "No data found.", icon: str = "inbox", **kwargs):
         super().__init__(**kwargs)
@@ -379,13 +362,12 @@ class KAEmptyState(BoxLayout):
         self.size_hint_y = None
         self.height = dp(180)
 
-        from kivymd.uix.label import MDLabel  # type: ignore
-
-        icon_lbl = MDLabel(
-            text=icon,
-            font_style="H3",
+        # Using MDIcon to prevent empty boxes
+        icon_lbl = MDIcon(
+            icon=icon,
             theme_text_color="Hint",
             halign="center",
+            font_size=dp(64),
             size_hint_y=None,
             height=dp(80),
         )
