@@ -67,7 +67,7 @@ warn_on_root = 1
 # bin_dir = ./bin
 
 
-#    Android specific
+#   Android specific
 
 # (str) Android NDK version to use
 android.ndk = 23b
