@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Khan'z Academy
+title = Khanz Academy
 
 # (str) Package name
 package.name = khanzacademy
