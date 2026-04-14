@@ -26,7 +26,7 @@ version = 1.0.0
 
 # (list) Application requirements
 # Comma-separated e.g. requirements = python3,kivy
-requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow,fpdf2,sqlite3
+requirements = python3, kivy==2.3.0, kivymd==1.2.0, pillow, PyPDF2
 
 # (str) Custom source folders for requirements
 # (list) Garden requirements
