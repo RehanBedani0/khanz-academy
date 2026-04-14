@@ -28,7 +28,7 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev git uuid-dev
+          sudo apt-get install -y build-essential python3-dev libsqlite3-dev libffi-dev libssl-dev uuid-dev zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake git
 
       - name: Install Python Dependencies
         run: |
@@ -41,6 +41,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Khans-Academy-App
+          name: Khanz-Academy-App
           path: bin/*.apk
           
